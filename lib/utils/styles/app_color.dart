@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static const mainColor = LinearGradient(
-    colors: [Color(0xFFF8E889), Color(0xFFE4B764)],
-  );
+  static const mainColor = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFF8E889), Color(0xFFE4B764)]);
   static const secondaryColor = Color(0xFFE4B764);
   static const successColor = Color(0xFF1E8E3E);
   static const borderColor = Color(0xFFE4B764);
