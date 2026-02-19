@@ -41,6 +41,10 @@ class AppTextStyles {
   );
 }
 
+class AppBoxShadow {
+  static const boxShadow = BoxShadow(color: Colors.grey, spreadRadius: 2, blurRadius: 5, offset: Offset(3, 0));
+}
+
 class AppTheme {
   static ThemeData get light => ThemeData(
     useMaterial3: true,
@@ -50,10 +54,7 @@ class AppTheme {
       seedColor: AppColor.secondaryColor,
       primary: AppColor.secondaryColor,
       surface: AppColor.surface,
-    ).copyWith(
-      onPrimary: AppColor.textOnPrimary,
-      onSurface: AppColor.textColor,
-    ),
+    ).copyWith(onPrimary: AppColor.textOnPrimary, onSurface: AppColor.textColor),
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       backgroundColor: AppColor.surface,
