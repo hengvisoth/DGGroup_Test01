@@ -32,6 +32,14 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
+  static const TextStyle figmaBold14Capitalize = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w700,
+    fontSize: 14,
+    height: 1,
+    letterSpacing: 0,
+  );
+
   static const TextStyle figmaBold10Uppercase = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w700,

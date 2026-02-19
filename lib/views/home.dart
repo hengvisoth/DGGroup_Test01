@@ -9,7 +9,7 @@ import 'package:dggroup_test/views/widget/date_button.dart';
 import 'package:dggroup_test/views/widget/header_card.dart';
 import 'package:dggroup_test/views/widget/item_card.dart';
 import 'package:dggroup_test/views/widget/loading_item.dart';
-import 'package:dggroup_test/views/widget/video_frame_thumbnail.dart';
+import 'package:dggroup_test/views/widget/search_section.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -72,7 +72,8 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    if (_pageCache.containsKey(pageIndex) || _loadingPages.contains(pageIndex)) {
+    if (_pageCache.containsKey(pageIndex) ||
+        _loadingPages.contains(pageIndex)) {
       return;
     }
 
@@ -130,8 +131,14 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (_scrollController.position.extentAfter < _itemExtent * 12) {
-      final estimatedLastVisibleIndex = ((_scrollController.offset + _scrollController.position.viewportDimension) / _itemExtent).floor();
-      final nextPage = (estimatedLastVisibleIndex + VideoFeedRepository.pageSize) ~/ VideoFeedRepository.pageSize;
+      final estimatedLastVisibleIndex =
+          ((_scrollController.offset +
+                      _scrollController.position.viewportDimension) /
+                  _itemExtent)
+              .floor();
+      final nextPage =
+          (estimatedLastVisibleIndex + VideoFeedRepository.pageSize) ~/
+          VideoFeedRepository.pageSize;
       unawaited(_loadPage(nextPage));
     }
   }
@@ -176,10 +183,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               // Header
               SizedBox(
-                height: 100,
+                height: 80,
                 child: Stack(
                   children: [
-                    Image.asset('assets/images/main_background.png', fit: BoxFit.cover, width: double.infinity, height: 100),
+                    Image.asset(
+                      'assets/images/main_background.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 80,
+                    ),
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.bottomCenter,
@@ -188,12 +200,23 @@ class _HomePageState extends State<HomePage> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             gradient: AppColor.mainColor,
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
-                            border: Border.all(color: AppColor.borderColor, width: 4),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(32),
+                              topRight: Radius.circular(32),
+                            ),
+                            border: Border.all(
+                              color: AppColor.borderColor,
+                              width: 4,
+                            ),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           margin: const EdgeInsets.only(top: 32),
-                          child: Text('LICH THI DAU', style: AppTextStyles.figmaBold16Capitalize.copyWith(color: AppColor.textOnPrimary)),
+                          child: Text(
+                            'LICH THI DAU',
+                            style: AppTextStyles.figmaBold16Capitalize.copyWith(
+                              color: AppColor.textOnPrimary,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -218,42 +241,60 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+
+                        // Date Row
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
-                              children: List.generate(_dateData.length, (index) {
+                              children: List.generate(_dateData.length, (
+                                index,
+                              ) {
                                 return Container(
-                                  margin: EdgeInsets.only(right: index == _dateData.length - 1 ? 0 : 8, bottom: 8),
+                                  margin: EdgeInsets.only(
+                                    right: index == _dateData.length - 1
+                                        ? 0
+                                        : 8,
+                                    bottom: 8,
+                                  ),
                                   child: DateButton(dateData: _dateData[index]),
                                 );
                               }),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
 
+                        const SearchSection(),
                         // List Item
                         Expanded(
                           child: _isInitialLoading
                               ? const Center(child: CircularProgressIndicator())
                               : LayoutBuilder(
                                   builder: (context, listConstraints) {
-                                    _itemExtent = listConstraints.maxHeight / 11; // 8 for main item , 3 for header
-                                    final rowHeight = listConstraints.maxHeight / 11;
-                                    final headerHeight = rowHeight;
+                                    _itemExtent =
+                                        listConstraints.maxHeight /
+                                        11; // 8 for main item , 3 for header
+                                    final rowHeight =
+                                        listConstraints.maxHeight / 11;
 
-                                    final totalItems = VideoFeedRepository.totalItems;
-                                    final headersCount = (totalItems / groupSize).ceil();
+                                    final totalItems =
+                                        VideoFeedRepository.totalItems;
+                                    final headersCount =
+                                        (totalItems / groupSize).ceil();
                                     final step = groupSize + 1;
                                     return RefreshIndicator(
                                       onRefresh: _onRefresh,
                                       child: ListView.builder(
                                         controller: _scrollController,
                                         padding: EdgeInsets.zero,
-                                        physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                                        physics:
+                                            const AlwaysScrollableScrollPhysics(
+                                              parent: ClampingScrollPhysics(),
+                                            ),
                                         itemExtent: rowHeight,
                                         itemCount: totalItems + headersCount,
 
@@ -261,13 +302,18 @@ class _HomePageState extends State<HomePage> {
                                           final isHeader = index % step == 0;
 
                                           if (isHeader) {
-                                            return HeaderCard(rowHeight: rowHeight);
+                                            return HeaderCard(
+                                              rowHeight: rowHeight,
+                                            );
                                           }
 
                                           final headersBefore = index ~/ step;
-                                          final itemIndex = index - headersBefore - 1;
+                                          final itemIndex =
+                                              index - headersBefore - 1;
                                           final item = _itemAt(itemIndex);
-                                          if (item == null) return const LoadingItem();
+                                          if (item == null) {
+                                            return const LoadingItem();
+                                          }
                                           return ItemCard(item: item);
                                         },
                                       ),
