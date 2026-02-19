@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dggroup_test/services/video_thumbnail_service.dart';
+import 'package:dggroup_test/utils/styles/app_style.dart';
 import 'package:flutter/material.dart';
 
 class VideoFrameThumbnail extends StatefulWidget {
@@ -37,7 +38,7 @@ class _VideoFrameThumbnailState extends State<VideoFrameThumbnail> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: AppBorderRadius.lg,
       child: FutureBuilder<String?>(
         future: _thumbnailFuture,
         builder: (context, snapshot) {

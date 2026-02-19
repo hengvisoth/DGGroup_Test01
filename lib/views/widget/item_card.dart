@@ -12,8 +12,8 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: AppBorderRadius.lg,
@@ -29,7 +29,7 @@ class ItemCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               decoration: BoxDecoration(
                 color: const Color(0xFFF4F5F7),
-                borderRadius: AppBorderRadius.lg,
+                borderRadius: AppBorderRadius.sm,
                 boxShadow: const [
                   BoxShadow(color: Color(0x26000000), offset: Offset(2, 4), blurRadius: 7.4, spreadRadius: 0, blurStyle: BlurStyle.inner),
                   BoxShadow(color: Color(0x26000000), offset: Offset(0, 4), blurRadius: 26.4, spreadRadius: 0, blurStyle: BlurStyle.inner),

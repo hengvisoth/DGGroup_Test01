@@ -6,6 +6,7 @@ import 'package:dggroup_test/services/video_feed_repository.dart';
 import 'package:dggroup_test/utils/styles/app_color.dart';
 import 'package:dggroup_test/utils/styles/app_style.dart';
 import 'package:dggroup_test/views/widget/date_button.dart';
+import 'package:dggroup_test/views/widget/header_card.dart';
 import 'package:dggroup_test/views/widget/item_card.dart';
 import 'package:dggroup_test/views/widget/loading_item.dart';
 import 'package:dggroup_test/views/widget/video_frame_thumbnail.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   bool _isInitialLoading = true;
   String? _initialError;
   double _itemExtent = 90;
+  int groupSize = 3;
 
   @override
   void initState() {
@@ -239,20 +241,33 @@ class _HomePageState extends State<HomePage> {
                               ? const Center(child: CircularProgressIndicator())
                               : LayoutBuilder(
                                   builder: (context, listConstraints) {
-                                    _itemExtent = listConstraints.maxHeight / 8;
+                                    _itemExtent = listConstraints.maxHeight / 11; // 8 for main item , 3 for header
+                                    final rowHeight = listConstraints.maxHeight / 11;
+                                    final headerHeight = rowHeight;
+
+                                    final totalItems = VideoFeedRepository.totalItems;
+                                    final headersCount = (totalItems / groupSize).ceil();
+                                    final step = groupSize + 1;
                                     return RefreshIndicator(
                                       onRefresh: _onRefresh,
                                       child: ListView.builder(
                                         controller: _scrollController,
                                         padding: EdgeInsets.zero,
                                         physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                                        itemExtent: _itemExtent,
-                                        itemCount: VideoFeedRepository.totalItems,
+                                        itemExtent: rowHeight,
+                                        itemCount: totalItems + headersCount,
+
                                         itemBuilder: (context, index) {
-                                          final item = _itemAt(index);
-                                          if (item == null) {
-                                            return const LoadingItem();
+                                          final isHeader = index % step == 0;
+
+                                          if (isHeader) {
+                                            return HeaderCard(rowHeight: rowHeight);
                                           }
+
+                                          final headersBefore = index ~/ step;
+                                          final itemIndex = index - headersBefore - 1;
+                                          final item = _itemAt(itemIndex);
+                                          if (item == null) return const LoadingItem();
                                           return ItemCard(item: item);
                                         },
                                       ),
