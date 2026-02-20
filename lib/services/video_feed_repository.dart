@@ -4,7 +4,7 @@ import 'package:dggroup_test/model/video_feed_item.dart';
 
 class VideoFeedRepository {
   static const int totalItems = 5000000;
-  static const int pageSize = 120;
+  static const int pageSize = 12;
 
   final List<String> _videoUrls = const [
     'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
