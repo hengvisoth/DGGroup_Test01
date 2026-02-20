@@ -4,8 +4,9 @@
 
 ![Main screen](doc/images/output.png)
 
-### Video Frame Thumbnail
+### FPS Testing
 
+Average 4.4ms / Frame
 ![Video frame thumbnail](doc/images/output_frame.png)
 
 ## Prerequisites
